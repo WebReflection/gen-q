@@ -5,7 +5,7 @@
 <sup>**Social Media Photo by [Meizhi Lang](https://unsplash.com/@meizhilang) on [Unsplash](https://unsplash.com/)**</sup>
 
 
-Highliy inspired by [Refillable Generators post](https://towardsdev.com/refillable-generators-the-javascript-pattern-nobody-talks-about-4e09aa32e3c0), this module uses a modern *JS* approach through a class that doesn't need to provide "*error prone*" utilities around, as [explained in my reply](https://medium.com/p/6ea999513c91).
+Highly inspired by [Refillable Generators post](https://towardsdev.com/refillable-generators-the-javascript-pattern-nobody-talks-about-4e09aa32e3c0), this module uses a modern *JS* approach through a class that doesn't need to provide "*error prone*" utilities around, as [explained in my reply](https://medium.com/p/6ea999513c91).
 
 ```js
 import Queue from 'https://esm.run/gen-q';
