@@ -8,10 +8,14 @@
     ".": {
       "import": "./index.js"
     },
+    "./utils": {
+      "import": "./utils.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "index.js",
+    "utils.js",
     "README.md",
     "LICENSE"
   ],

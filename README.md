@@ -60,3 +60,49 @@ setTimeout((...args) => {
 // 6
 // done
 ```
+
+### Introducing `gen-q/utils`
+
+```js
+import Queue from 'https://esm.run/gen-q';
+import { forever } from 'https://esm.run/gen-q/utils';
+
+const numbers = new Queue(1, 2, 3);
+
+// this one will never exit + it owns the queue
+(async function (items) {
+  for await (const item of forever(items))
+    console.log(item);
+}(numbers));
+
+// any attempt to loop the queue will fail
+// but the anonymous loop will keep going!
+
+// exit the test (after 3 seconds)
+setTimeout(() => {
+  numbers.splice(0);
+}, 3000);
+
+setTimeout((...args) => {
+  // nobody will see these items ...
+  // pushed but then synchronously removed via splice
+  numbers.push(...args);
+
+  // drop all items from the queue, like map and other
+  // methods it returns a new Queue itself
+  console.assert(numbers.splice(0) instanceof Queue);
+
+  // push at distance, the `test` is still running!
+  setTimeout(async () => {
+    numbers.push(...args);
+  }, 1000);
+}, 1000, 4, 5, 6);
+
+// output
+// 1
+// 2
+// 3
+// 4
+// 5
+// 6
+```
