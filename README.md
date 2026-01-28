@@ -49,4 +49,14 @@ setTimeout((...args) => {
     // will exit in a second
   }, 1000);
 }, 1000, 4, 5, 6);
+
+// output
+// 1
+// 2
+// 3
+// done
+// 4
+// 5
+// 6
+// done
 ```
