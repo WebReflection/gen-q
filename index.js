@@ -29,7 +29,7 @@ export default class Queue extends Array {
    * @param {number} start
    * @param {number} [deleteCount]
    * @param {...T} [items]
-   * @returns {T[]}
+   * @returns {Queue<T>[]}
    */
   splice(start, deleteCount = this.length, ...items) {
     const result = super.splice(start, deleteCount, ...items);
