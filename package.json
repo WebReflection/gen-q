@@ -1,6 +1,6 @@
 {
   "name": "gen-q",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An efficient queue implementation for JavaScript",
   "main": "index.js",
   "module": "index.js",
