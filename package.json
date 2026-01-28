@@ -1,0 +1,42 @@
+{
+  "name": "gen-q",
+  "version": "0.0.0",
+  "description": "An efficient queue implementation for JavaScript",
+  "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "coverage": "mkdir -p ./coverage; c8 report --reporter=text-lcov > ./coverage/lcov.info",
+    "test": "c8 node test.js"
+  },
+  "keywords": [
+    "generator",
+    "queue",
+    "async",
+    "array"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "c8": "^10.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/gen-q.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WebReflection/gen-q/issues"
+  },
+  "homepage": "https://github.com/WebReflection/gen-q#readme"
+}
