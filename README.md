@@ -70,7 +70,7 @@ import { forever } from 'https://esm.run/gen-q/utils';
 const numbers = new Queue(1, 2, 3);
 
 // this one will never exit + it owns the queue
-(async function (items) {
+(async function test(items) {
   for await (const item of forever(items))
     console.log(item);
 }(numbers));
