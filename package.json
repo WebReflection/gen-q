@@ -4,12 +4,15 @@
   "description": "An efficient queue implementation for JavaScript",
   "main": "index.js",
   "module": "index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./index.js"
+      "import": "./index.js",
+      "types": "./types/index.d.ts"
     },
     "./utils": {
-      "import": "./utils.js"
+      "import": "./utils.js",
+      "types": "./types/utils.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -17,11 +20,14 @@
     "index.js",
     "utils.js",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "types/*.d.ts"
   ],
   "scripts": {
+    "build": "npm run types",
     "coverage": "mkdir -p ./coverage; c8 report --reporter=text-lcov > ./coverage/lcov.info",
-    "test": "c8 node test.js"
+    "test": "c8 node test.js",
+    "types": "rm -rf types && tsc --allowJs --checkJs --lib esnext --moduleResolution nodenext --module NodeNext --target esnext -d --emitDeclarationOnly --outDir ./types ./index.js ./utils.js"
   },
   "keywords": [
     "generator",
@@ -33,7 +39,8 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "c8": "^10.1.3"
+    "c8": "^10.1.3",
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",

@@ -1,43 +1,61 @@
+/**
+ * @type {() => void}
+ */
 const wake = () => {};
+
+let result;
 
 /**
  * @template T
- * @extends Array<T>
  */
 export default class Queue extends Array {
+  static {
+    /**
+     * @template T,R
+     * @param {Queue<T>} self
+     * @param {R} value
+     * @returns {R}
+     */
+    result = (self, value) => {
+      if (self.#iterating) self.#wake();
+      return value;
+    };
+  }
+
   #iterating = false;
+
   #wake = wake;
 
   /**
    * @param {...T} items
    */
   constructor(...items) {
+    //@ts-ignore
     super().push(...items);
   }
 
   /**
-   * @param {...T} items
+   * @override
+   * @param  {...T} items
    * @returns {number}
    */
   push(...items) {
-    const result = super.push(...items);
-    this.#wake();
-    return result;
+    return result(this, super.push(...items));
   }
 
   /**
    * @param {number} start
-   * @param {number} [deleteCount]
-   * @param {...T} [items]
+   * @param {number} [deleteCount=this.length]
+   * @param  {...T} [items]
    * @returns {Queue<T>[]}
    */
   splice(start, deleteCount = this.length, ...items) {
-    const result = super.splice(start, deleteCount, ...items);
-    this.#wake();
-    return result;
+    return result(this, super.splice(start, deleteCount, ...items));
   }
 
-  [Symbol.toStringTag] = 'Queue';
+  get [Symbol.toStringTag]() {
+    return 'Queue';
+  }
 
   /**
    * @returns {AsyncGenerator<T>}
@@ -49,7 +67,9 @@ export default class Queue extends Array {
     this.#iterating = true;
     while (this.#iterating) {
       // if no items, wait until push calls wake()
-      if (!this.length) await new Promise(wake => (this.#wake = wake));
+      if (!this.length) await new Promise(
+        wake => (this.#wake = /** @type {() => void} */(wake))
+      );
 
       // if wake was called but there are no items left, break the loop
       // this effectively allow to reset and iterate again with splice(0)
