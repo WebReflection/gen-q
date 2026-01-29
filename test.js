@@ -9,6 +9,7 @@ async function test(items) {
 }
 
 const numbers = new Queue(1, 2, 3);
+console.assert(Object.prototype.toString.call(numbers) === '[object Queue]');
 test(numbers);
 
 // it fails if it was not consumed/resetted
