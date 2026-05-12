@@ -7,7 +7,7 @@
  * @returns {AsyncGenerator<T>}
  */
 export async function* forever(queue) {
-  for await (const item of queue) yield item;
-  // Wait for new items to be pushed after exiting.
-  yield* forever(queue);
+  while (true) {
+    for await (const item of queue) yield item;
+  }
 };
