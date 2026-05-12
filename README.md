@@ -5,7 +5,7 @@
 <sup>**Social Media Photo by [Meizhi Lang](https://unsplash.com/@meizhilang) on [Unsplash](https://unsplash.com/)**</sup>
 
 
-Highliy inspired by *Refillable Generators post* (now 401 🤷), this module uses a modern *JS* approach through a class that doesn't need to provide "*error prone*" utilities around, as [explained in my reply](https://medium.com/p/6ea999513c91).
+Highly inspired by *Refillable Generators post* (now 401 🤷), this module uses a modern *JS* approach through a class that doesn't need to provide "*error prone*" utilities around, as [explained in my reply](https://medium.com/p/6ea999513c91).
 
 **[Live Demo](https://codepen.io/WebReflection/pen/zxBRYby?editors=1010)**
 
@@ -63,7 +63,30 @@ setTimeout((...args) => {
 // done
 ```
 
+If you never want the *async* function to exit, restart queue iteration after each reset:
+
+```js
+// Keep waiting for pushes forever.
+// splice(0) exits only the current queue iteration.
+async function test(items) {
+  while (true) {
+    for await (const item of items)
+      console.log(item);
+  }
+}
+
+const numbers = new Queue(1, 2, 3);
+test(numbers);
+
+// will never exit
+```
+
+This pattern can be used to simulate or create an *event loop* via JS micro tasks.
+
+
 ### Introducing `gen-q/utils`
+
+The `forever` utility provides the same restart behavior without writing the outer loop manually:
 
 ```js
 import Queue from 'https://esm.run/gen-q';
@@ -80,7 +103,7 @@ const numbers = new Queue(1, 2, 3);
 // Any attempt to loop over the queue will fail,
 // but the anonymous loop will keep going.
 
-// Exit the test after 3 seconds.
+// Reset the current queue iteration after 3 seconds.
 setTimeout(() => {
   numbers.splice(0);
 }, 3000);
