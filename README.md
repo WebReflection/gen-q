@@ -12,8 +12,8 @@ Highliy inspired by *Refillable Generators post* (now 401 🤷), this module use
 ```js
 import Queue from 'https://esm.run/gen-q';
 
-// forever waiting for pushes
-// it exits on explicit queue reset: splice(0)
+// Keep waiting for pushes forever.
+// It exits on an explicit queue reset: splice(0).
 async function test(items) {
   for await (const item of items)
     console.log(item);
@@ -23,32 +23,32 @@ async function test(items) {
 const numbers = new Queue(1, 2, 3);
 test(numbers);
 
-// it fails if it was not consumed/resetted
+// It fails if it was not consumed or reset.
 try {
   await test(numbers);
   console.assert(false, 'should have thrown an error');
 }
 catch {}
 
-// exit the test (after 3 seconds)
+// Exit the test after 3 seconds.
 setTimeout(() => {
   numbers.splice(0);
 }, 3000);
 
 setTimeout((...args) => {
-  // nobody will see these items ...
-  // pushed but then synchronously removed via splice
+  // Nobody will see these items:
+  // they are pushed, then synchronously removed via splice.
   numbers.push(...args);
 
-  // drop all items from the queue, like map and other
-  // methods it returns a new Queue itself
+  // Drop all items from the queue. Like map and other
+  // methods, it returns a new Queue.
   console.assert(numbers.splice(0) instanceof Queue);
 
-  // push and then loop again
+  // Push and then loop again.
   setTimeout(async () => {
     numbers.push(...args);
     await test(numbers);
-    // will exit in a second
+    // This will exit in a second.
   }, 1000);
 }, 1000, 4, 5, 6);
 
@@ -71,30 +71,30 @@ import { forever } from 'https://esm.run/gen-q/utils';
 
 const numbers = new Queue(1, 2, 3);
 
-// this one will never exit + it owns the queue
+// This one will never exit, and it owns the queue.
 (async function test(items) {
   for await (const item of forever(items))
     console.log(item);
 }(numbers));
 
-// any attempt to loop the queue will fail
-// but the anonymous loop will keep going!
+// Any attempt to loop over the queue will fail,
+// but the anonymous loop will keep going.
 
-// exit the test (after 3 seconds)
+// Exit the test after 3 seconds.
 setTimeout(() => {
   numbers.splice(0);
 }, 3000);
 
 setTimeout((...args) => {
-  // nobody will see these items ...
-  // pushed but then synchronously removed via splice
+  // Nobody will see these items:
+  // they are pushed, then synchronously removed via splice.
   numbers.push(...args);
 
-  // drop all items from the queue, like map and other
-  // methods it returns a new Queue itself
+  // Drop all items from the queue. Like map and other
+  // methods, it returns a new Queue.
   console.assert(numbers.splice(0) instanceof Queue);
 
-  // push at distance, the `test` is still running!
+  // Push later; `test` is still running.
   setTimeout(async () => {
     numbers.push(...args);
   }, 1000);

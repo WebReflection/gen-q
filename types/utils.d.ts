@@ -1,7 +1,7 @@
 /**
- * Automatically re-queue even after splice(0),
- * allowing queued items to be trashed, without
- * requiring to manually re-iterate the queue again.
+ * Automatically re-queue after splice(0),
+ * allowing queued items to be discarded without
+ * requiring manual re-iteration.
  * @template T
  * @param {import('./index.js').default<T>} queue
  * @returns {AsyncGenerator<T>}
